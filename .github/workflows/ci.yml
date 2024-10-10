@@ -13,27 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    # Cài đặt JDK 17
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '17'
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip
-          sudo apt-get install -y chromium-chromedriver
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f
+    # Cài đặt Maven và cache
+    - name: Set up Maven
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+        
+        cache: maven
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+    # Build dự án với Maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
 
-      - name: Run Selenium Tests
-        run: mvn test
-
+    # Chạy kiểm thử với Maven
+    - name: Run tests
+      run: mvn test
 
