@@ -22,7 +22,7 @@ public class TestFaceBook {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             
             WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
-            username.sendKeys("tuananhphamngoc2k3@gmail.com");
+            username.sendKeys("");
 
             WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pass")));
             password.sendKeys("123456");
