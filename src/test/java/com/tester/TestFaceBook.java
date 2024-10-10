@@ -9,10 +9,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class TestFaceBook {
 
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver;
+
+    public TestFaceBook() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage"); // Giải quyết vấn đề với bộ nhớ chia sẻ
+        options.addArguments("--headless"); // Nếu bạn muốn chạy Chrome không có giao diện đồ họa
+        options.addArguments("--disable-gpu"); // Tắt GPU
+
+        driver = new ChromeDriver(options);
+    }
 
     @Test
     public void testLogin() {
