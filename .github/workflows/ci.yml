@@ -1,6 +1,5 @@
 name: Selenium Test
 
-# Chạy workflow này khi có push hoặc pull request vào nhánh main
 on:
   push:
     branches:
@@ -9,35 +8,30 @@ on:
     branches:
       - main
 
-# Các job để thực hiện
 jobs:
   build:
-    # Chạy trên Ubuntu
     runs-on: ubuntu-latest
 
-    # Các bước trong job
     steps:
       # Checkout mã nguồn từ kho lưu trữ
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Cập nhật lên phiên bản mới nhất
 
-      # Thiết lập JDK 11 hoặc phiên bản Java bạn đang sử dụng
+      # Thiết lập JDK 11 với distribution 'temurin'
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3  # Cập nhật lên phiên bản mới nhất
         with:
-          java-version: '11'
+          java-version: '11'        # Phiên bản JDK
+          distribution: 'temurin'   # Chỉ định distribution là 'temurin'
 
-      # Cài đặt Maven
+      # Cài đặt Maven (nếu cần)
       - name: Setup Maven
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'maven'
-          maven-version: '3.8.1'
+        run: mvn --version
 
-      # Bước build và chạy kiểm thử
+      # Build với Maven
       - name: Build with Maven
         run: mvn clean install
 
-      # Chạy các bài kiểm thử với Selenium
+      # Chạy các bài kiểm thử Selenium
       - name: Run Selenium Tests
         run: mvn test
