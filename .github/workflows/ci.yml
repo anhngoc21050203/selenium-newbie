@@ -13,25 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout mã nguồn từ kho lưu trữ
       - name: Checkout code
-        uses: actions/checkout@v3  # Cập nhật lên phiên bản mới nhất
+        uses: actions/checkout@v3
 
-      # Thiết lập JDK 17 với distribution 'temurin'
       - name: Set up JDK 17
-        uses: actions/setup-java@v3  # Cập nhật lên phiên bản mới nhất
+        uses: actions/setup-java@v3
         with:
-          java-version: '17'         # Thay đổi thành phiên bản JDK 17
-          distribution: 'temurin'    # Chỉ định distribution là 'temurin'
+          java-version: '17'
+          distribution: 'temurin'
 
-      # Cài đặt Maven (nếu cần)
-      - name: Setup Maven
-        run: mvn --version
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y chromium-chromedriver
 
-      # Build với Maven
       - name: Build with Maven
         run: mvn clean install
 
-      # Chạy các bài kiểm thử Selenium
       - name: Run Selenium Tests
-        run: mvn test
+        run: mvn test -X
+
